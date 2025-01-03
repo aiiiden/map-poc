@@ -1,6 +1,7 @@
 import { useEffect, useRef, useState } from 'react';
 
 import { calculatePosition, drawPlayer, renderTile } from '../canvas/draw';
+import MapController from './map-controller';
 
 // 이동처리, 충돌처리 등을 위한 함수
 
@@ -49,7 +50,7 @@ export function MapInterface() {
   }, [playerPosition]);
 
   return (
-    <div className="h-svh bg-black flex justify-center items-center">
+    <div className="h-svh flex flex-col gap-4 justify-center items-center">
       <canvas
         ref={canvasRef}
         id="canvas"
@@ -57,6 +58,14 @@ export function MapInterface() {
         height="800"
         className="border w-full aspect-square"
       ></canvas>
+      <div>
+        <MapController
+          onMove={(direction) => {
+            const nextPosition = calculatePosition(playerPosition, direction);
+            setPlayerPosition(nextPosition);
+          }}
+        />
+      </div>
     </div>
   );
 }
